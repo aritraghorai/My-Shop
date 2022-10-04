@@ -143,3 +143,18 @@ export const updateUser = catchAsync(
     }
   }
 );
+/**
+ * @route : GET api/user
+ * @desc : Get All Users only for admins
+ * @access : private
+ */
+export const getAllUsers = catchAsync(
+  async (req: TypedRequestuser<{}>, res: Response, next: NextFunction) => {
+    const users = await User.find({});
+    // console.log(users);
+    res.status(200).json({
+      status: 'OK',
+      users,
+    });
+  }
+);

@@ -20,15 +20,15 @@ const app: Application = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-
-app.use('/images', express.static(path.join(__dirname, '../public')));
+app.use(express.static('../public'));
+app.use('/images', express.static(path.join(__dirname, '../public/Images')));
 
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/order', orderRouter);
 
-app.get('/*', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '/public', 'dist', 'index.html'));
+app.get('/', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
 //*Error Handler
