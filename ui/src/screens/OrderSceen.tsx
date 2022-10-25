@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect } from 'react';
-import { Card, Col, ListGroup, Row, Image, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import Loadder from '../Components/Loadder';
-import Message from '../Components/Message';
-import { useAppDispatch } from '../redux/Hooks/hooks';
+import React, { useCallback, useEffect } from "react";
+import { Card, Col, ListGroup, Row, Image, Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import Loadder from "../Components/Loadder";
+import Message from "../Components/Message";
+import { useAppDispatch } from "../redux/Hooks/hooks";
 import {
   checkOrderSuccess,
   getOrderDetail,
-} from '../Redux/Reducers/orderDetailSlice';
-import { RootState } from '../Redux/store';
-import useRazorpay, { RazorpayOptions } from 'react-razorpay';
+} from "../Redux/Reducers/orderDetailSlice";
+import { RootState } from "../Redux/store";
+import useRazorpay, { RazorpayOptions } from "react-razorpay";
 
 const OrderSceen = () => {
   const param = useParams();
   const KEY = import.meta.env.VITE_AZORPAY_KEY_ID;
-  const id = param.id || '';
+  const id = param.id || "";
 
   const { error, isLoading, order } = useSelector(
     (state: RootState) => state.orderDetail
@@ -27,10 +27,10 @@ const OrderSceen = () => {
     const options: RazorpayOptions = {
       key: KEY,
       amount: String(order?.totalPrice),
-      currency: 'INR',
-      name: 'MyShop',
-      description: 'Online Payment',
-      image: 'https://example.com/your_logo',
+      currency: "INR",
+      name: "MyShop",
+      description: "Online Payment",
+      image: "https://example.com/your_logo",
       order_id: order?.paymentResult?.id as string,
       handler: (res) => {
         dispatch(
@@ -45,13 +45,13 @@ const OrderSceen = () => {
       prefill: {
         name: order?.user?.name,
         email: order?.user?.email,
-        contact: '9999999999',
+        contact: "9999999999",
       },
       notes: {
-        address: 'Razorpay Corporate Office',
+        address: "Razorpay Corporate Office",
       },
       theme: {
-        color: '#3399cc',
+        color: "#3399cc",
       },
     };
 
@@ -134,7 +134,7 @@ const OrderSceen = () => {
                         </Col>
                         <Col>
                           <Link
-                            style={{ textDecoration: 'none' }}
+                            style={{ textDecoration: "none" }}
                             to={`/product/${item.product}`}
                           >
                             {item.name}
@@ -184,7 +184,7 @@ const OrderSceen = () => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
-                  style={{ width: '90%' }}
+                  style={{ width: "90%" }}
                   onClick={handlePayment}
                   disabled={order?.isPaid}
                 >

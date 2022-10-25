@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
-import UserType from '../../Types/userType';
+import UserType from "../../Utils/Types/userType";
 
 export type userStateType = {
   loading: boolean;
@@ -16,7 +16,7 @@ const loginInitialState: userStateType = {
 };
 
 export const updateUser = createAsyncThunk(
-  'update_user',
+  "update_user",
   async (loginData: {
     currPassword: string;
     name?: string;
@@ -26,11 +26,11 @@ export const updateUser = createAsyncThunk(
     const { currPassword, name, email, password } = loginData;
     const body: { name?: string; email?: string; password?: string } = {};
     const userState = JSON.parse(
-      localStorage.getItem('USER_KEY') as string
+      localStorage.getItem("USER_KEY") as string
     ) as userStateType;
     //?Update User Data Function
 
-    const token = userState != null ? (userState.token as string) : '';
+    const token = userState != null ? (userState.token as string) : "";
     if (name) {
       body.name = name;
     }
@@ -43,7 +43,7 @@ export const updateUser = createAsyncThunk(
     console.log(token);
     const config = {
       headers: {
-        contentType: 'application/json',
+        contentType: "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -64,11 +64,11 @@ export const updateUser = createAsyncThunk(
 );
 //?Login User Action Function
 export const login = createAsyncThunk(
-  'login_user',
+  "login_user",
   async (loginData: { email: string; password: string }) => {
     const { email, password } = loginData;
     const config = {
-      headers: { contentType: 'application/json' },
+      headers: { contentType: "application/json" },
     };
 
     try {
@@ -89,11 +89,11 @@ export const login = createAsyncThunk(
 );
 //?Register User Action Function
 export const registerUser = createAsyncThunk(
-  'register_user',
+  "register_user",
   async (loginData: { email: string; password: string; name: string }) => {
     const { name, email, password } = loginData;
     const config = {
-      headers: { contentType: 'application/json' },
+      headers: { contentType: "application/json" },
     };
 
     try {
@@ -110,7 +110,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const userAuthSlice = createSlice({
-  name: 'user_login',
+  name: "user_login",
   initialState: loginInitialState,
   reducers: {
     logoutUser(state) {

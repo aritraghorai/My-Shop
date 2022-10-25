@@ -1,43 +1,57 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import productType from '../../Types/productType';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios";
+import productType from "../../Utils/Types/productType";
 
 export type productListStateType = {
   products: productType[];
-  loading: boolean;
+  isLoading: boolean;
   error: string | undefined;
 };
 const intitialFetchState: productListStateType = {
   products: [],
-  loading: false,
+  isLoading: false,
   error: undefined,
 };
 
-export const getProducts = createAsyncThunk('fetchProducts', async () => {
-  const { data } = await axios.get(`${import.meta.env.VITE_URL}/api/products`);
-  return data.products;
+export const getAllProductAction = createAsyncThunk<
+  productType[],
+  undefined,
+  { rejectValue: string | undefined }
+>("fetchProducts", async (_, thunkApi) => {
+  try {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_URL}/api/products`
+    );
+    return data.products;
+  } catch (error) {
+    const err = error as AxiosError<{ message: string }>;
+    return thunkApi.rejectWithValue(err.response?.data.message);
+  }
 });
 
 const fetchProductsSlice = createSlice({
-  name: 'fetchProduct',
+  name: "fetchProduct",
   initialState: intitialFetchState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getProducts.pending, (state) => {
-        state.loading = true;
+      .addCase(getAllProductAction.pending, (state) => {
+        state.isLoading = true;
       })
       .addCase(
-        getProducts.fulfilled,
+        getAllProductAction.fulfilled,
         (state, action: PayloadAction<productType[]>) => {
-          state.loading = false;
+          state.isLoading = false;
           state.products = action.payload;
         }
       )
-      .addCase(getProducts.rejected, (state) => {
-        state.loading = false;
-        state.error = 'Network Error';
-      });
+      .addCase(
+        getAllProductAction.rejected,
+        (state, action: PayloadAction<string | undefined>) => {
+          state.isLoading = false;
+          state.error = action.payload ? action.payload : "Network Error";
+        }
+      );
   },
 });
 

@@ -1,11 +1,10 @@
-import React from 'react';
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../redux/Hooks/hooks';
-import { logoutUser } from '../Redux/Reducers/userAuthSlice';
-import { RootState, showAlertFun } from '../redux/store';
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/Hooks/hooks";
+import { logoutUser } from "../Redux/Reducers/userAuthSlice";
+import { RootState, showAlertFun } from "../redux/store";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -15,14 +14,14 @@ const Header = () => {
   const logOutHandler = () => {
     localStorage.clear();
     dispatch(logoutUser());
-    showAlertFun({ Message: 'Logout Successfully', Type: 'success' });
+    showAlertFun({ Message: "Logout Successfully", Type: "success" });
   };
 
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <Navbar.Brand>My Shop</Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -41,7 +40,7 @@ const Header = () => {
                   <NavDropdown title={userLoginState.user?.name}>
                     <NavDropdown.Item
                       onClick={() => {
-                        navigate('/profile');
+                        navigate("/profile");
                       }}
                     >
                       Profile
@@ -57,6 +56,19 @@ const Header = () => {
                   </Nav.Link>
                 )}
               </LinkContainer>
+              {userLoginState.user && userLoginState.user.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/productList">
+                    <NavDropdown.Item>Product</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/orderList">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, InputGroup, Row, Table } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { FiEdit } from 'react-icons/fi';
-import Loadder from '../Components/Loadder';
-import Message from '../Components/Message';
-import { RootState } from '../redux/store';
-import { useAppDispatch } from '../redux/Hooks/hooks';
-import { fetchAllOrderAction } from '../Redux/Reducers/userOrdersSlice';
-import { LinkContainer } from 'react-router-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { FiEdit } from "react-icons/fi";
+import Loadder from "../Components/Loadder";
+import Message from "../Components/Message";
+import { RootState } from "../redux/store";
+import { useAppDispatch } from "../redux/Hooks/hooks";
+import { fetchAllOrderAction } from "../Redux/Reducers/userOrdersSlice";
+import { LinkContainer } from "react-router-bootstrap";
 
 const ProfileScreen = () => {
   const [userState, setUserState] = useState({
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
+    name: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
   });
   const allOrder = useSelector((state: RootState) => state.ordersByUser.orders);
 
@@ -25,9 +25,8 @@ const ProfileScreen = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!userDetail.token) {
-      navigate('/login');
+      navigate("/login");
     } else {
-      console.log('hi');
       dispatch(fetchAllOrderAction());
       setUserState({
         ...userState,
@@ -64,7 +63,7 @@ const ProfileScreen = () => {
                 variant="outline-secondary"
                 id="button-addon1"
                 onClick={() => {
-                  navigate('/profile/edit?id=name');
+                  navigate("/profile/edit?id=name");
                 }}
               >
                 <FiEdit />
@@ -86,7 +85,7 @@ const ProfileScreen = () => {
                 variant="outline-secondary"
                 id="button-addon2"
                 onClick={() => {
-                  navigate('/profile/edit?id=email');
+                  navigate("/profile/edit?id=email");
                 }}
               >
                 <FiEdit />
@@ -98,7 +97,7 @@ const ProfileScreen = () => {
           type="submit"
           className="mt-3"
           onClick={() => {
-            navigate('/profile/edit?id=password');
+            navigate("/profile/edit?id=password");
           }}
         >
           Change Password
@@ -112,7 +111,7 @@ const ProfileScreen = () => {
           hover
           responsive
           className="table-sm"
-          style={{ fontSize: '.8rem' }}
+          style={{ fontSize: ".8rem" }}
         >
           <thead>
             <th>ID</th>

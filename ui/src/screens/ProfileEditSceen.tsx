@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import FromContainer from '../Components/FromContainer';
-import Loadder from '../Components/Loadder';
+import { useState, useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import FromContainer from "../Components/FromContainer";
+import Loadder from "../Components/Loadder";
 
-import { useAppDispatch } from '../redux/Hooks/hooks';
-import { showAlert } from '../Redux/Reducers/alertReducer';
-import { updateUser } from '../Redux/Reducers/userAuthSlice';
-import { RootState, showAlertFun } from '../redux/store';
+import { useAppDispatch } from "../redux/Hooks/hooks";
+import { updateUser } from "../Redux/Reducers/userAuthSlice";
+import { RootState, showAlertFun } from "../redux/store";
 
 const ProfileEditSceen = () => {
   const location = useLocation();
   const changeType = location.search
-    ? location.search.split('=')[1]
-    : ('/' as string);
+    ? location.search.split("=")[1]
+    : ("/" as string);
   const [changeState, setChangeState] = useState<{
     currPassword: string;
     confirmPassword: string;
-  }>({ confirmPassword: '', currPassword: '' });
-  const [newTypeState, setnewTypeState] = useState<string>('');
+  }>({ confirmPassword: "", currPassword: "" });
+  const [newTypeState, setnewTypeState] = useState<string>("");
   const dispatch = useAppDispatch();
   const userDetail = useSelector((state: RootState) => state.loginDetail);
   const { loading, error } = userDetail;
@@ -29,23 +28,23 @@ const ProfileEditSceen = () => {
   const submitHander = (e: any) => {
     e.preventDefault();
     if (changeState.currPassword !== changeState.confirmPassword) {
-      showAlertFun({ Type: 'danger', Message: 'Password Does not Match' });
+      showAlertFun({ Type: "danger", Message: "Password Does not Match" });
     } else {
-      if (changeType === 'name') {
+      if (changeType === "name") {
         dispatch(
           updateUser({
             currPassword: changeState.currPassword,
             name: newTypeState,
           })
         );
-      } else if (changeType === 'email') {
+      } else if (changeType === "email") {
         dispatch(
           updateUser({
             currPassword: changeState.currPassword,
             email: newTypeState,
           })
         );
-      } else if (changeType === 'password') {
+      } else if (changeType === "password") {
         dispatch(
           updateUser({
             currPassword: changeState.currPassword,
@@ -53,12 +52,12 @@ const ProfileEditSceen = () => {
           })
         );
       }
-      navigate('/profile');
+      navigate("/profile");
     }
   };
   useEffect(() => {
     if (!userDetail.token) {
-      navigate('/login');
+      navigate("/login");
     }
   }, []);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,7 +72,7 @@ const ProfileEditSceen = () => {
         <Form.Group controlId={changeType}>
           <Form.Label>Enter New {changeType}</Form.Label>
           <Form.Control
-            type={changeType === 'password' ? 'password' : 'text'}
+            type={changeType === "password" ? "password" : "text"}
             required
             name={changeType}
             placeholder={`Enter New ${changeType}`}

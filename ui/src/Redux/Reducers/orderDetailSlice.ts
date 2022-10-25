@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import orderType from '../../Types/orderType';
-import { userStateType } from './userAuthSlice';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import orderType from "../../Utils/Types/orderType";
+import { userStateType } from "./userAuthSlice";
 
 export type orderDetailsStateType = {
   isLoading: boolean;
@@ -16,16 +16,16 @@ export const getOrderDetail = createAsyncThunk<
   orderType,
   { id: string },
   { rejectValue: string | undefined }
->('api/order', async ({ id }, thunkAPI) => {
+>("api/order", async ({ id }, thunkAPI) => {
   const userState = JSON.parse(
-    localStorage.getItem('USER_KEY') as string
+    localStorage.getItem("USER_KEY") as string
   ) as userStateType;
-  const token = userState != null ? (userState.token as string) : '';
+  const token = userState != null ? (userState.token as string) : "";
 
   try {
     const config = {
       headers: {
-        contentType: 'application/json',
+        contentType: "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -50,19 +50,19 @@ export const checkOrderSuccess = createAsyncThunk<
   },
   { rejectValue: string | undefined }
 >(
-  'api/order/:id/payment',
+  "api/order/:id/payment",
   async (
     { razorpay_payment_id, razorpay_order_id, razorpay_signature, order_id },
     thunkAPI
   ) => {
     try {
       const userState = JSON.parse(
-        localStorage.getItem('USER_KEY') as string
+        localStorage.getItem("USER_KEY") as string
       ) as userStateType;
-      const token = userState != null ? (userState.token as string) : '';
+      const token = userState != null ? (userState.token as string) : "";
       const config = {
         headers: {
-          contentType: 'application/json',
+          contentType: "application/json",
           Authorization: `Bearer ${token}`,
         },
       };
@@ -86,7 +86,7 @@ export const checkOrderSuccess = createAsyncThunk<
 );
 
 const orderDetailSlice = createSlice({
-  name: 'orderSlice',
+  name: "orderSlice",
   initialState: initialOrderDetailState,
   reducers: {
     resetOrderDetail(state) {
@@ -112,8 +112,8 @@ const orderDetailSlice = createSlice({
         (state, action: PayloadAction<string | undefined>) => {
           state.isLoading = false;
           if (!action.payload) {
-            state.error = 'Network Error';
-          } else state.error = 'Order Not Found';
+            state.error = "Network Error";
+          } else state.error = "Order Not Found";
           state.order = undefined;
         }
       )

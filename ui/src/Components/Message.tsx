@@ -1,5 +1,5 @@
-import React from 'react';
-import { Alert } from 'react-bootstrap';
+import React from "react";
+import { Alert } from "react-bootstrap";
 
 type propsType = {
   varient: string;
@@ -9,7 +9,7 @@ const Message = ({ varient, children }: propsType) => {
   return <Alert variant={varient}>{children}</Alert>;
 };
 Message.defaultProps = {
-  varient: 'info',
+  varient: "info",
 };
 
 export default Message;

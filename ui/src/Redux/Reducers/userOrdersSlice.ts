@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import orderType from '../../Types/orderType';
-import { userStateType } from './userAuthSlice';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios";
+import orderType from "../../Utils/Types/orderType";
+import { userStateType } from "./userAuthSlice";
 
 export type allOrderbyUserStateType = {
   isLoading: boolean;
@@ -16,14 +16,14 @@ export const fetchAllOrderAction = createAsyncThunk<
   orderType[],
   void,
   { rejectValue: string | undefined }
->('Get api/order', async (_, thunkAPI) => {
+>("Get api/order", async (_, thunkAPI) => {
   const userState = JSON.parse(
-    localStorage.getItem('USER_KEY') as string
+    localStorage.getItem("USER_KEY") as string
   ) as userStateType;
-  const token = userState != null ? (userState.token as string) : '';
+  const token = userState != null ? (userState.token as string) : "";
   const config = {
     headers: {
-      contentType: 'application/json',
+      contentType: "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
@@ -34,12 +34,13 @@ export const fetchAllOrderAction = createAsyncThunk<
     );
     const order = data.Orders as orderType[];
     return order;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.response.data as string | undefined);
+  } catch (error) {
+    const err = error as AxiosError<string>;
+    return thunkAPI.rejectWithValue(err.response?.data as string | undefined);
   }
 });
 const fetchAllOrderSlice = createSlice({
-  name: 'orderSlice',
+  name: "orderSlice",
   initialState: initialOrderState,
   reducers: {},
   extraReducers(builder) {
@@ -52,7 +53,6 @@ const fetchAllOrderSlice = createSlice({
         (state, action: PayloadAction<orderType[]>) => {
           state.isLoading = false;
           state.orders = action.payload;
-          console.log(state);
         }
       )
       .addCase(fetchAllOrderAction.rejected, (state) => {

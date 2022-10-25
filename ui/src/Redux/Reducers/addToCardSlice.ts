@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import productType from '../../Types/productType';
-import shippingAdressType from '../../Types/shippingAdressType';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import productType from "../../Utils/Types/productType";
+import shippingAdressType from "../../Utils/Types/shippingAdressType";
 
 export interface tAddpayload {
   name: string;
@@ -21,7 +21,7 @@ const initialCardState: cardStateType = {
 };
 
 export const addToCardAction = createAsyncThunk(
-  'addToCard',
+  "addToCard",
   async ({ id, qty }: { id: string; qty: number }) => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_URL}/api/products/${id}`
@@ -39,7 +39,7 @@ export const addToCardAction = createAsyncThunk(
 );
 
 const addToCardSlice = createSlice({
-  name: 'addToCard',
+  name: "addToCard",
   initialState: initialCardState,
   reducers: {
     removeFromCard: (state, action: PayloadAction<string>) => {

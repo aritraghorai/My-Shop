@@ -1,5 +1,5 @@
-import { tAddpayload } from '../Redux/Reducers/addToCardSlice';
-import shippingAdressType from './shippingAdressType';
+import { tAddpayload } from "../../Redux/Reducers/addToCardSlice";
+import shippingAdressType from "./shippingAdressType";
 
 type orderType = {
   _id: string;

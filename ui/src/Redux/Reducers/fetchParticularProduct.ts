@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import productType from '../../Types/productType';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import productType from "../../Utils/Types/productType";
 
 export type productDetailStateType = {
   product: productType;
@@ -9,12 +9,12 @@ export type productDetailStateType = {
 };
 const intitialProductDetailState: productDetailStateType = {
   product: {
-    _id: '',
-    name: '',
-    image: '',
-    description: '',
-    brand: '',
-    category: '',
+    _id: "",
+    name: "",
+    image: "",
+    description: "",
+    brand: "",
+    category: "",
     price: 2,
     countInStock: 0,
     rating: 0,
@@ -25,7 +25,7 @@ const intitialProductDetailState: productDetailStateType = {
 };
 
 export const getProductDetail = createAsyncThunk(
-  'fetch/productdetil',
+  "fetch/productdetil",
   async (productId: string) => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_URL}/api/products/${productId}`
@@ -35,7 +35,7 @@ export const getProductDetail = createAsyncThunk(
 );
 
 const fetchProductDetailSlice = createSlice({
-  name: 'fetchProductDetail',
+  name: "fetchProductDetail",
   initialState: intitialProductDetailState,
   reducers: {},
   extraReducers(builder) {
@@ -52,7 +52,7 @@ const fetchProductDetailSlice = createSlice({
       )
       .addCase(getProductDetail.rejected, (state) => {
         state.loading = false;
-        state.error = 'Network Error';
+        state.error = "Network Error";
       });
   },
 });

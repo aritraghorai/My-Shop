@@ -1,15 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit';
-import addToCardSlice from './Reducers/addToCardSlice';
-import alertReducer, { hideAlert, showAlert } from './Reducers/alertReducer';
-import fetchProductDetailSlice from './Reducers/fetchParticularProduct';
-import fetchProductsSlice from './Reducers/fetchProduct';
-import orderRducer from './Reducers/orderSlice';
-import getAllOrderByUserReducer from './Reducers/userOrdersSlice';
-import orderDetailReducer from './Reducers/orderDetailSlice';
-import { userAuthSlice } from './Reducers/userAuthSlice';
-import { loadState, saveState } from './Storage/card_storage';
-const CARD_KEY = 'cardItem';
-const USER_KEY = 'USER_KEY';
+import { configureStore } from "@reduxjs/toolkit";
+import addToCardSlice from "./Reducers/addToCardSlice";
+import alertReducer, { hideAlert, showAlert } from "./Reducers/alertReducer";
+import fetchProductDetailSlice from "./Reducers/fetchParticularProduct";
+import fetchProductsSlice from "./Reducers/fetchProduct";
+import orderRducer from "./Reducers/orderSlice";
+import getAllOrderByUserReducer from "./Reducers/userOrdersSlice";
+import getAllUserReducer from "./Reducers/Admin/listAllUser";
+import orderDetailReducer from "./Reducers/orderDetailSlice";
+import { userAuthSlice } from "./Reducers/userAuthSlice";
+import { loadState, saveState } from "./Storage/card_storage";
+import UserDetailReducer from "./Reducers/Admin/UserDetailById";
+const CARD_KEY = "cardItem";
+const USER_KEY = "USER_KEY";
 
 const store = configureStore({
   reducer: {
@@ -21,6 +23,8 @@ const store = configureStore({
     order: orderRducer,
     orderDetail: orderDetailReducer,
     ordersByUser: getAllOrderByUserReducer,
+    allUsers: getAllUserReducer,
+    userDetail: UserDetailReducer,
   },
   preloadedState: {
     card: loadState(CARD_KEY),

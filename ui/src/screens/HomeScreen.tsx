@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import Loadder from '../Components/Loadder';
-import Message from '../Components/Message';
-import Product from '../Components/Product';
-import { useAppDispatch } from '../redux/Hooks/hooks';
-import { getProducts } from '../redux/Reducers/fetchProduct';
-import { RootState } from '../redux/store';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import Loadder from "../Components/Loadder";
+import Message from "../Components/Message";
+import Product from "../Components/Product";
+import { useAppDispatch } from "../redux/Hooks/hooks";
+import { getAllProductAction } from "../redux/Reducers/fetchProduct";
+import { RootState } from "../redux/store";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const HomeScreen = () => {
-  const { products, error, loading } = useSelector(
-    (state: RootState) => state.productList
-  );
+  const {
+    products,
+    error,
+    isLoading: loading,
+  } = useSelector((state: RootState) => state.productList);
   const [parent] = useAutoAnimate();
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getAllProductAction());
   }, [dispatch]);
   return (
     <>
@@ -25,7 +27,7 @@ const HomeScreen = () => {
         <Loadder />
       ) : error ? (
         <Message varient="danger">
-          <div>Error</div>
+          <div>{error}</div>
         </Message>
       ) : (
         <Row ref={parent}>

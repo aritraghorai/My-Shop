@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import FromContainer from '../Components/FromContainer';
-import Loadder from '../Components/Loadder';
-import Message from '../Components/Message';
-import { useAppDispatch } from '../redux/Hooks/hooks';
-import { login } from '../Redux/Reducers/userAuthSlice';
-import { RootState } from '../redux/store';
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import FromContainer from "../Components/FromContainer";
+import Loadder from "../Components/Loadder";
+import Message from "../Components/Message";
+import { useAppDispatch } from "../redux/Hooks/hooks";
+import { login } from "../Redux/Reducers/userAuthSlice";
+import { RootState } from "../redux/store";
 
 const LoginSceen = () => {
   const location = useLocation();
-  const redirect = location.search ? location.search.split('=')[1] : '';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const redirect = location.search ? location.search.split("=")[1] : "";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const userDetail = useSelector((state: RootState) => state.loginDetail);
   const { loading, error } = userDetail;
@@ -23,17 +23,16 @@ const LoginSceen = () => {
       if (redirect) {
         navigate(`/${redirect}`);
       } else {
-        navigate('/');
+        navigate("/");
       }
     }
   }, [userDetail.token]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const submitHander = (e: any) => {
+
+  const submitHander = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login({ email, password }));
-    setEmail('');
-    setPassword('');
-    // navigate('/');
+    setEmail("");
+    setPassword("");
   };
   return (
     <FromContainer>
@@ -79,8 +78,8 @@ const LoginSceen = () => {
         <Col>
           New Customer?
           <Link
-            style={{ textDecoration: 'none', font: 'bold' }}
-            to={redirect ? `/register?redirect=${redirect}` : '/register'}
+            style={{ textDecoration: "none", font: "bold" }}
+            to={redirect ? `/register?redirect=${redirect}` : "/register"}
           >
             Register
           </Link>

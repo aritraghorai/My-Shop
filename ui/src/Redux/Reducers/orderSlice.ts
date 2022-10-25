@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import orderType from '../../Types/orderType';
-import { tAddpayload } from './addToCardSlice';
-import { userStateType } from './userAuthSlice';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import orderType from "../../Utils/Types/orderType";
+import { tAddpayload } from "./addToCardSlice";
+import { userStateType } from "./userAuthSlice";
 
 export type typeOrder = {
   isLoading: boolean;
@@ -29,15 +29,15 @@ export const initialOrderState: typeOrder = {
   success: false,
 };
 export const placeOrder = createAsyncThunk(
-  'api/order',
+  "api/order",
   async (orderBody: orderBodyType) => {
     const userState = JSON.parse(
-      localStorage.getItem('USER_KEY') as string
+      localStorage.getItem("USER_KEY") as string
     ) as userStateType;
-    const token = userState != null ? (userState.token as string) : '';
+    const token = userState != null ? (userState.token as string) : "";
     const config = {
       headers: {
-        contentType: 'application/json',
+        contentType: "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -53,7 +53,7 @@ export const placeOrder = createAsyncThunk(
   }
 );
 const orderSlice = createSlice({
-  name: 'orderSlice',
+  name: "orderSlice",
   initialState: initialOrderState,
   reducers: {
     resetOrder(state) {
@@ -74,7 +74,11 @@ const orderSlice = createSlice({
           state.isLoading = false;
           state.success = true;
         }
-      );
+      )
+      .addCase(placeOrder.rejected, (state) => {
+        state.isLoading = false;
+        state.error = "Someting Went Wrong";
+      });
   },
 });
 
