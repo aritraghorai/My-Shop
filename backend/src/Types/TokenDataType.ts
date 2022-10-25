@@ -1,7 +1,7 @@
 interface TokenDataType {
-  id: string;
-  iat: number;
-  exp: number;
+    id: string
+    iat: number
+    exp: number
 }
 
-export default TokenDataType;
+export default TokenDataType

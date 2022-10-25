@@ -1,10 +1,11 @@
-import { Request } from 'express';
-import UserType from './userType';
+import { Request } from 'express'
+import UserType from './userType'
 
 export interface TypedRequestBody<T> extends Request {
-  body: T;
+    body: T
 }
-export interface TypedRequestuser<T> extends Request {
-  body: T;
-  user: UserType | undefined | null;
+export interface ExtentRequestType<B = undefined>
+    extends Request {
+    body: B
+    user: UserType | undefined | null
 }
